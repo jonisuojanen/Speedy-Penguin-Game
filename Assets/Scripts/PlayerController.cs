@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private float m_RotationSpeed;
     [SerializeField]
     private float m_JumpForce;
+    [SerializeField]
+    private float m_SlidingSpeed, m_StandingSpeed;
+    private float m_TargetSpeed;
 
     private float input;
     private Rigidbody m_RigidBody;
@@ -18,6 +21,14 @@ public class PlayerController : MonoBehaviour
     private bool m_IsSliding = true;
     private bool m_IsJumping = false;
     private bool m_IsGrounded = false;
+    
+    private bool m_IsBoosting;
+    private float m_BoostTime;
+    private float m_BoostSpeed;
+
+    private bool m_IsSlowed;
+    private float m_SlowedTime;
+    private float m_SlowedSpeed;
 
     /*
     * -> Rotate graphics object by input
@@ -27,16 +38,22 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        GameManager.instance.playerController = this;
+
         m_RigidBody = GetComponent<Rigidbody>();
+        m_TargetSpeed = m_SlidingSpeed;
     }
 
     void Update()
     {
+
         Vector3 rotation = transform.position + m_RigidBody.velocity;
         m_GFX.LookAt(new Vector3(rotation.x, transform.position.y, rotation.z), Vector3.up);
 
+        UpdateTimers();
         GatherInput();
     }
+
 
     private void GatherInput()
     {
@@ -53,11 +70,18 @@ public class PlayerController : MonoBehaviour
         {
             m_IsSliding = !m_IsSliding;
             //TODO: brake toggle
+
+            if (m_IsSliding) m_TargetSpeed = m_SlidingSpeed;
+            else m_TargetSpeed = m_StandingSpeed;
+
+            print("speed up: " + m_IsSliding);
         }
     }
 
     private void FixedUpdate()
     {
+        SetSpeed();
+
         if (input != 0)
         {   
             m_RigidBody.velocity = 
@@ -68,6 +92,68 @@ public class PlayerController : MonoBehaviour
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
         }
+    }
+
+    private void SetSpeed()
+    {
+        Vector3 targetVelocityVector = m_RigidBody.velocity.normalized;
+        Vector3 currentVelocityVector = m_RigidBody.velocity;
+        float currentSpeed = m_RigidBody.velocity.magnitude;
+        float interpRate = 1f;
+
+        if (m_IsSlowed)
+        {
+            targetVelocityVector *= m_SlowedSpeed;
+            interpRate = 5f;
+        }
+        else if (m_IsBoosting)
+        {
+            targetVelocityVector *= m_BoostSpeed;
+            interpRate = 5f;
+        }
+        else if (!m_IsBoosting)
+        {
+            if (m_IsSliding && currentSpeed <= m_TargetSpeed)
+            {
+                targetVelocityVector *= m_TargetSpeed;
+                interpRate = 1f;
+            }
+            else if (!m_IsSliding && currentSpeed != m_TargetSpeed)
+            {
+                targetVelocityVector *= m_TargetSpeed;
+                interpRate = 2f;
+            }
+        }
+
+        m_RigidBody.velocity = Vector3.Lerp(currentVelocityVector, targetVelocityVector, interpRate * Time.deltaTime);
+    }
+
+    private void UpdateTimers()
+    {
+        if (m_IsBoosting)
+        {
+            if (m_BoostTime > 0f) m_BoostTime -= Time.deltaTime;
+            if (m_BoostTime <= 0f) m_IsBoosting = false;
+        }
+        if (m_IsSlowed)
+        {
+            if (m_SlowedTime > 0f) m_SlowedTime -= Time.deltaTime;
+            if (m_SlowedTime <= 0f) m_IsSlowed = false;
+        }
+    }
+
+    public void ActivateBoost(float time, float speed)
+    {
+        m_BoostTime = time;
+        m_BoostSpeed = m_RigidBody.velocity.magnitude + speed;
+        m_IsBoosting = true;
+    }
+
+    public void ActivateSlow(float time, float speed)
+    {
+        m_SlowedTime = time;
+        m_SlowedSpeed = speed;
+        m_IsSlowed = true;
     }
 
     private void OnCollisionEnter(Collision collision)
