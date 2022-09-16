@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -51,31 +52,13 @@ public class PlayerController : MonoBehaviour
         m_GFX.LookAt(new Vector3(rotation.x, transform.position.y, rotation.z), Vector3.up);
 
         UpdateTimers();
+
+#if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
-    }
-
-
-    private void GatherInput()
-    {
-        input = Input.GetAxisRaw("Horizontal");
-        if (m_IsGrounded)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
-            {
-                Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
-                m_IsJumping = true;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            m_IsSliding = !m_IsSliding;
-            //TODO: brake toggle
-
-            if (m_IsSliding) m_TargetSpeed = m_SlidingSpeed;
-            else m_TargetSpeed = m_StandingSpeed;
-
-            print("speed up: " + m_IsSliding);
-        }
+#endif
+#if UNITY_ANDROID || UNITY_IOS
+        GatherInputMobile();
+#endif
     }
 
     private void FixedUpdate()
@@ -91,6 +74,48 @@ public class PlayerController : MonoBehaviour
         {
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
+        }
+    }
+
+    private void GatherInput()
+    {
+        input = Input.GetAxisRaw("Horizontal");
+
+        if (m_IsGrounded && Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        {
+            Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
+            m_IsJumping = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            m_IsSliding = !m_IsSliding;
+            m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
+            print("speed up: " + m_IsSliding);
+        }
+    }
+
+    private void GatherInputMobile()
+    {
+        Gamepad pad = Gamepad.current;
+        if (pad == null)
+        {
+            Debug.LogError("No Gamepad detected!");
+            return;
+        }
+
+        input = pad.rightStick.ReadValue().x;
+
+        if (m_IsGrounded && pad.rightTrigger.wasPressedThisFrame && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        {
+            Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
+            m_IsJumping = true;
+        }
+        if (pad.leftTrigger.wasPressedThisFrame)
+        {
+            m_IsSliding = !m_IsSliding;
+            m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
+            print("speed up: " + m_IsSliding);
         }
     }
 
