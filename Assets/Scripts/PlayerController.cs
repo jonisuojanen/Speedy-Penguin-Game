@@ -31,12 +31,6 @@ public class PlayerController : MonoBehaviour
     private float m_SlowedTime;
     private float m_SlowedSpeed;
 
-    /*
-    * -> Rotate graphics object by input
-    * -> Rotate rigidbody velocity vector by input
-    * -> Jumping when grounded  
-    */
-
     void Start()
     {
         GameManager.instance.playerController = this;
@@ -81,6 +75,9 @@ public class PlayerController : MonoBehaviour
     {
         input = Input.GetAxisRaw("Horizontal");
 
+        if (!m_IsGrounded)
+            return;
+
         if (m_IsGrounded && Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
@@ -106,11 +103,15 @@ public class PlayerController : MonoBehaviour
 
         input = pad.rightStick.ReadValue().x;
 
-        if (m_IsGrounded && pad.rightTrigger.wasPressedThisFrame && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        if (!m_IsGrounded)
+            return;
+
+        if (pad.rightTrigger.wasPressedThisFrame && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
             m_IsJumping = true;
         }
+
         if (pad.leftTrigger.wasPressedThisFrame)
         {
             m_IsSliding = !m_IsSliding;
