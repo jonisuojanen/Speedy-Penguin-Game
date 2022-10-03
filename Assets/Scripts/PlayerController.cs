@@ -22,6 +22,12 @@ public class PlayerController : MonoBehaviour
     private bool m_IsSliding = true;
     private bool m_IsJumping = false;
     private bool m_IsGrounded = false;
+    private bool m_CanJump = true;
+    [SerializeField]
+    private float m_coyoteAndJumpBufferTime;
+    private float m_coyoteTimer = 0f;
+    private float m_jumpBuffer = 0f;
+
     
     private bool m_IsBoosting;
     private float m_BoostTime;
@@ -31,9 +37,12 @@ public class PlayerController : MonoBehaviour
     private float m_SlowedTime;
     private float m_SlowedSpeed;
 
+    public GameObject scoreText;
+
     void Start()
     {
         GameManager.instance.playerController = this;
+        GameManager.instance.GetVariables();
 
         m_RigidBody = GetComponent<Rigidbody>();
         m_TargetSpeed = m_SlidingSpeed;
@@ -41,11 +50,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         Vector3 rotation = transform.position + m_RigidBody.velocity;
         m_GFX.LookAt(new Vector3(rotation.x, transform.position.y, rotation.z), Vector3.up);
-
-        UpdateTimers();
 
 #if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
@@ -53,6 +59,7 @@ public class PlayerController : MonoBehaviour
 #if UNITY_ANDROID || UNITY_IOS
         GatherInputMobile();
 #endif
+        UpdateTimers();
     }
 
     private void FixedUpdate()
@@ -68,21 +75,24 @@ public class PlayerController : MonoBehaviour
         {
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
+            print("actuallyjumped");
         }
+        if (m_IsGrounded) m_coyoteTimer = m_coyoteAndJumpBufferTime;
+
     }
 
     private void GatherInput()
     {
         input = Input.GetAxisRaw("Horizontal");
 
-        if (!m_IsGrounded)
-            return;
-
-        if (m_IsGrounded && Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        if (Input.GetKeyDown(KeyCode.Space)) // && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
             m_IsJumping = true;
         }
+
+        if (!m_IsGrounded)
+            return;
 
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -103,15 +113,24 @@ public class PlayerController : MonoBehaviour
 
         input = pad.rightStick.ReadValue().x;
 
+        //Jump buffer
+        if (pad.rightTrigger.wasPressedThisFrame && !m_IsJumping) m_jumpBuffer = m_coyoteAndJumpBufferTime;
+
+        //Queue jump to FixedUpdate
+        if (m_jumpBuffer > 0f && m_coyoteTimer > 0f && m_CanJump) //(m_IsGrounded && pad.rightTrigger.wasPressedThisFrame) // && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        {
+            StartCoroutine(JumpReset());
+            Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
+            m_jumpBuffer = 0f;
+            m_coyoteTimer = 0f;
+            m_IsJumping = true;
+            print("jumped");
+        }
+
         if (!m_IsGrounded)
             return;
 
-        if (pad.rightTrigger.wasPressedThisFrame && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
-        {
-            Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
-            m_IsJumping = true;
-        }
-
+        //Slide toggle
         if (pad.leftTrigger.wasPressedThisFrame)
         {
             m_IsSliding = !m_IsSliding;
@@ -166,6 +185,16 @@ public class PlayerController : MonoBehaviour
             if (m_SlowedTime > 0f) m_SlowedTime -= Time.deltaTime;
             if (m_SlowedTime <= 0f) m_IsSlowed = false;
         }
+        if (m_coyoteTimer > 0f) m_coyoteTimer -= Time.deltaTime;
+        if (m_jumpBuffer > 0f) m_jumpBuffer -= Time.deltaTime;
+
+    }
+
+    private IEnumerator JumpReset()
+    {
+        m_CanJump = false;
+        yield return new WaitForSeconds(m_coyoteAndJumpBufferTime * 2);
+        m_CanJump = true;
     }
 
     public void ActivateBoost(float time, float speed)
@@ -196,4 +225,5 @@ public class PlayerController : MonoBehaviour
             m_IsGrounded = false;
         }
     }
+    
 }
