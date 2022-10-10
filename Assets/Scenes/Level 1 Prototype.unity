@@ -47880,7 +47880,6 @@ GameObject:
   - component: {fileID: 1746083744}
   - component: {fileID: 1746083745}
   - component: {fileID: 1746083746}
-  - component: {fileID: 1746083747}
   m_Layer: 0
   m_Name: FMOD
   m_TagString: Untagged
@@ -47949,19 +47948,6 @@ MonoBehaviour:
   LoadBankAwakeStrings: Level1.strings
   UnloadBankDestroy: Level1
   UnloadBankDestroyStrings: Level1.strings
---- !u!114 &1746083747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746083743}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20f559dbbd7999a45ab26eb2e2e9132b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LevelEvent: event:/test
 --- !u!4 &1750145547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6972524543209132418, guid: f119b8010f91326408d2aab7dd308cdd,
