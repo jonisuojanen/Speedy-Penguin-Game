@@ -1,0 +1,7 @@
+{20b8d6d8-ba10-432f-b3c6-6d2ce1d783aa} bank:/Level1
+{b8a5f60c-cb6b-0f6d-358f-e7d210248532} bank:/Level1.strings
+{c6d308b4-1f52-4e56-af8b-6e6d7c11d9e4} bank:/Level2
+{1f422731-2fd2-49e9-9b5d-3fada7486286} bank:/SFX
+{c3d182d5-8667-4672-82bb-f3f94005a188} bus:/
+{ae7ec59b-6a4a-4a6c-abd1-1ce81af6e976} bus:/Reverb
+{2f6360f1-f14c-4c24-8141-9892ac4be16d} event:/test
