@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.15397581, g: 0.47964677, b: 0.6164258, a: 1}
+  m_IndirectSpecularColor: {r: 0.15380725, g: 0.48026162, b: 0.62054634, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17735,7 +17735,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.1974359, y: 1}
+    m_SensorSize: {x: 1.6666666, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -47879,6 +47879,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1746083744}
   - component: {fileID: 1746083745}
+  - component: {fileID: 1746083746}
   m_Layer: 0
   m_Name: FMOD
   m_TagString: Untagged
@@ -47920,6 +47921,36 @@ MonoBehaviour:
   - Main.strings
   CollisionTag: 
   PreloadSamples: 0
+--- !u!114 &1746083746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746083743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 795042033
+      Data2: 1277489484
+      Data3: -1835515519
+      Data4: 1843481516
+    Path: event:/test
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!4 &1750145547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6972524543209132418, guid: f119b8010f91326408d2aab7dd308cdd,
