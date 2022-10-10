@@ -13,13 +13,13 @@ public class F_Banks : MonoBehaviour
     private void Awake()
     {
         FMODUnity.RuntimeManager.LoadBank(LoadBankAwake);
-        FMODUnity.RuntimeManager.LoadBank(LoadBankAwakeStrings);
+        //FMODUnity.RuntimeManager.LoadBank(LoadBankAwakeStrings);
     }
 
     private void OnDestroy()
     {
         FMODUnity.RuntimeManager.UnloadBank(UnloadBankDestroy);
-        FMODUnity.RuntimeManager.UnloadBank(UnloadBankDestroyStrings);
+        //FMODUnity.RuntimeManager.UnloadBank(UnloadBankDestroyStrings);
     }
 
 }
