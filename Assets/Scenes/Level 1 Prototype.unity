@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.15380725, g: 0.48026162, b: 0.62054634, a: 1}
+  m_IndirectSpecularColor: {r: 0.15397581, g: 0.47964677, b: 0.6164258, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12643,37 +12643,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1478491188}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &750079651
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 750079652}
-  m_Layer: 0
-  m_Name: bad object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &750079652
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750079651}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 960, y: 540, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &764524237
 GameObject:
   m_ObjectHideFlags: 0
@@ -17797,7 +17766,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0192678, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -47964,9 +47933,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1746083744}
-  - component: {fileID: 1746083747}
-  - component: {fileID: 1746083749}
-  - component: {fileID: 1746083748}
+  - component: {fileID: 1746083745}
+  - component: {fileID: 1746083746}
   m_Layer: 0
   m_Name: FMOD
   m_TagString: Untagged
@@ -47989,7 +47957,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1746083747
+--- !u!114 &1746083745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746083743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e1d80be2f2aac46847b306df1cb1c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadBankAwake: Main
+  LoadBankAwakeStrings: Main.strings
+--- !u!114 &1746083746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48004,11 +47986,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 795042033
-      Data2: 1277489484
-      Data3: -1835515519
-      Data4: 1843481516
-    Path: event:/test
+      Data1: -158430552
+      Data2: 1138026366
+      Data3: -579370313
+      Data4: -1477422325
+    Path: event:/Music/Level_1_Music
   Event: 
   PlayEvent: 1
   StopEvent: 2
@@ -48019,38 +48001,6 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
---- !u!114 &1746083748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746083743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e1d80be2f2aac46847b306df1cb1c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadBankAwake: Level1
-  LoadBankAwakeStrings: 
-  UnloadBankDestroy: 
-  UnloadBankDestroyStrings: 
---- !u!114 &1746083749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746083743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e1d80be2f2aac46847b306df1cb1c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadBankAwake: Main
-  LoadBankAwakeStrings: Main.strings
-  UnloadBankDestroy: 
-  UnloadBankDestroyStrings: 
 --- !u!4 &1750145547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6972524543209132418, guid: f119b8010f91326408d2aab7dd308cdd,
