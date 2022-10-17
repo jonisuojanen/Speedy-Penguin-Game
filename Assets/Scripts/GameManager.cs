@@ -66,6 +66,6 @@ public class GameManager : MonoBehaviour
     public void GetVariables()
     {
         LevelScripts levelHelper = playerController.GetComponent<LevelScripts>();
-        m_scoreTMP = playerController.scoreText.GetComponent<TextMeshProUGUI>();
+        m_scoreTMP = playerController.m_scoreText.GetComponent<TextMeshProUGUI>();
     }
 }
