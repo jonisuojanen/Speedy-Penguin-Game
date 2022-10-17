@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform m_GFX;
     [SerializeField]
+    private Animator m_Animator;
+    [SerializeField]
     private float m_RotationSpeed;
     [SerializeField]
     private float m_JumpForce;
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private float m_SlowedTime;
     private float m_SlowedSpeed;
 
-    public GameObject scoreText;
+    public GameObject m_scoreText;
 
     void Start()
     {
@@ -50,8 +52,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 rotation = transform.position + m_RigidBody.velocity;
-        m_GFX.LookAt(new Vector3(rotation.x, transform.position.y, rotation.z), Vector3.up);
+        Vector3 rotation = transform.position - m_RigidBody.velocity;
+        m_GFX.LookAt(rotation, Vector3.up);
+
 
 #if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
@@ -75,7 +78,6 @@ public class PlayerController : MonoBehaviour
         {
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
-            print("actuallyjumped");
         }
         if (m_IsGrounded) m_coyoteTimer = m_coyoteAndJumpBufferTime;
 
@@ -99,6 +101,7 @@ public class PlayerController : MonoBehaviour
             m_IsSliding = !m_IsSliding;
             m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
             print("speed up: " + m_IsSliding);
+            m_Animator.SetBool("BackSlide", !m_IsSliding);
         }
     }
 
@@ -124,7 +127,6 @@ public class PlayerController : MonoBehaviour
             m_jumpBuffer = 0f;
             m_coyoteTimer = 0f;
             m_IsJumping = true;
-            print("jumped");
         }
 
         if (!m_IsGrounded)
@@ -136,6 +138,7 @@ public class PlayerController : MonoBehaviour
             m_IsSliding = !m_IsSliding;
             m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
             print("speed up: " + m_IsSliding);
+            m_Animator.SetBool("BackSlide", !m_IsSliding);
         }
     }
 
@@ -225,5 +228,4 @@ public class PlayerController : MonoBehaviour
             m_IsGrounded = false;
         }
     }
-    
 }
