@@ -55,7 +55,6 @@ public class PlayerController : MonoBehaviour
         Vector3 rotation = transform.position - m_RigidBody.velocity;
         m_GFX.LookAt(rotation, Vector3.up);
 
-
 #if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
 #endif
