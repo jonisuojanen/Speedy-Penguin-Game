@@ -9695,7 +9695,6 @@ GameObject:
   - component: {fileID: 3540959991495362485}
   - component: {fileID: 4787890155580812352}
   - component: {fileID: 581558648598283146}
-  - component: {fileID: 581558646731010784}
   - component: {fileID: 1872238796}
   m_Layer: 0
   m_Name: Player
@@ -9753,7 +9752,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GFX: {fileID: 1123830622411677045}
-  m_CameraTarget: {fileID: 0}
   m_Animator: {fileID: 581558647551549326}
   m_RotationSpeed: 70
   m_JumpForce: 200
@@ -9787,21 +9785,7 @@ CapsuleCollider:
   m_Radius: 0.38
   m_Height: 1.08
   m_Direction: 2
-  m_Center: {x: 0.02, y: 0, z: 0.004352808}
---- !u!136 &581558646731010784
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3540959991495362489}
-  m_Material: {fileID: 13400000, guid: ea93747a584ebc54c8bcd00691e776b7, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.38
-  m_Height: 1.08
-  m_Direction: 2
-  m_Center: {x: 0.02, y: 0, z: 0.004352808}
+  m_Center: {x: 0.02, y: 0.25, z: 0.004352808}
 --- !u!114 &1872238796
 MonoBehaviour:
   m_ObjectHideFlags: 0
