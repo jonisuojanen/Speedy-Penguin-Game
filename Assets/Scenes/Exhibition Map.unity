@@ -8773,7 +8773,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.0000000030885376, y: 0.89716524, z: -0.44169515, w: -0.000000006273399}
+  m_LocalRotation: {x: 0.000000026507632, y: 0.89716524, z: -0.44169518, w: 0.00000005384194}
   m_LocalPosition: {x: 105, y: 395, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -43490,7 +43490,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 6.7038836, y: 1}
+    m_SensorSize: {x: 2.1837525, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -43506,7 +43506,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949354383}
-  m_LocalRotation: {x: -0.0000000030885376, y: 0.89716524, z: -0.44169515, w: -0.000000006273399}
+  m_LocalRotation: {x: 0.000000026507632, y: 0.89716524, z: -0.44169518, w: 0.00000005384194}
   m_LocalPosition: {x: 105, y: 395, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -87934,7 +87934,6 @@ GameObject:
   - component: {fileID: 1746083744}
   - component: {fileID: 1746083747}
   - component: {fileID: 1746083749}
-  - component: {fileID: 1746083748}
   m_Layer: 0
   m_Name: FMOD
   m_TagString: Untagged
@@ -87972,11 +87971,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 795042033
-      Data2: 1277489484
-      Data3: -1835515519
-      Data4: 1843481516
-    Path: event:/test
+      Data1: -158430552
+      Data2: 1138026366
+      Data3: -579370313
+      Data4: -1477422325
+    Path: event:/Music/Level_1_Music
   Event: 
   PlayEvent: 1
   StopEvent: 2
@@ -87987,20 +87986,6 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
---- !u!114 &1746083748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1746083743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e1d80be2f2aac46847b306df1cb1c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadBankAwake: Level1
-  LoadBankAwakeStrings: 
 --- !u!114 &1746083749
 MonoBehaviour:
   m_ObjectHideFlags: 0
