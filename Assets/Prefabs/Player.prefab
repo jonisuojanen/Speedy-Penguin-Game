@@ -9971,6 +9971,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: penguin
       objectReference: {fileID: 0}
+    - target: {fileID: 8531922981982924401, guid: 0b03c2db6a0532a47a858e5aec724505,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 645782c988582a449947e55ae033fa1a, type: 2}
+    - target: {fileID: 8531922981982924401, guid: 0b03c2db6a0532a47a858e5aec724505,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 645782c988582a449947e55ae033fa1a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b03c2db6a0532a47a858e5aec724505, type: 3}
 --- !u!1 &347750598637881295 stripped
