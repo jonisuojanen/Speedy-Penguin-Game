@@ -22,8 +22,6 @@ public class PlayerParticles : MonoBehaviour
             if (collision.impulse.y > s_landingParticlePlayImpulseY)
             {
                 StartCoroutine(LandingParticlesPlay(collision.contacts[0].normal));
-
-                F_AudioManager.instance.StartSlideSFX();
             }
         }
     }
@@ -37,6 +35,16 @@ public class PlayerParticles : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            if(!F_AudioManager.instance.isPlaying())
+            {
+                F_AudioManager.instance.StartSlideSFX();
+            }
+        }
+    }
 
     private IEnumerator LandingParticlesPlay(Vector3 normal)
     {

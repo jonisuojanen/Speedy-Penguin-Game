@@ -20,7 +20,6 @@ public class F_AudioManager : MonoBehaviour
         FMODUnity.RuntimeManager.LoadBank("Main.strings");
 
         Level1Music = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Level_1_Music");
-
         SlideSFX = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Gameplay/Slide");
     }
 
@@ -47,5 +46,16 @@ public class F_AudioManager : MonoBehaviour
         SlideSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //SlideSFX.release();
         Debug.Log("stop");
+    }
+
+    public bool isPlaying()
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        SlideSFX.getPlaybackState(out state);
+
+        if(state==FMOD.Studio.PLAYBACK_STATE.PLAYING) 
+            return true;
+
+        return false;
     }
 }

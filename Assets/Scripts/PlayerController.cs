@@ -77,6 +77,10 @@ public class PlayerController : MonoBehaviour
         {
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
+
+
+            //PLAY JUMPING SOUND
+
         }
         if (m_IsGrounded) m_coyoteTimer = m_coyoteAndJumpBufferTime;
 
