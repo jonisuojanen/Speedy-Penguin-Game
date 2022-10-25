@@ -9,6 +9,8 @@ public class PlayerParticles : MonoBehaviour
 
     private const float s_landingParticlePlayImpulseY = 1000f;
 
+    private bool isPlaying = false;
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -20,6 +22,8 @@ public class PlayerParticles : MonoBehaviour
             if (collision.impulse.y > s_landingParticlePlayImpulseY)
             {
                 StartCoroutine(LandingParticlesPlay(collision.contacts[0].normal));
+
+                F_AudioManager.instance.StartSlideSFX();
             }
         }
     }
@@ -28,14 +32,19 @@ public class PlayerParticles : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             m_slideParticles.Pause();
+
+            F_AudioManager.instance.StopSlideSFX();
         }
     }
+
 
     private IEnumerator LandingParticlesPlay(Vector3 normal)
     {
         yield return new WaitForFixedUpdate();
         m_landingParticles.transform.rotation = Quaternion.LookRotation(normal, normal);
         m_landingParticles.Play();
+
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/Landing", gameObject);
     }
 
 }

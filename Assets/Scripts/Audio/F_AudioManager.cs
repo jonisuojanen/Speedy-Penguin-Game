@@ -6,6 +6,7 @@ public class F_AudioManager : MonoBehaviour
 {
     public static F_AudioManager instance;
 
+    //private FMOD.Studio.EventInstance MenuMusic;
     private FMOD.Studio.EventInstance Level1Music;
     private FMOD.Studio.EventInstance SlideSFX;
 
@@ -37,11 +38,14 @@ public class F_AudioManager : MonoBehaviour
     public void StartSlideSFX()
     {
         SlideSFX.start();
+        Debug.Log("start");
     }
 
     public void StopSlideSFX()
     {
+
         SlideSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        SlideSFX.release();
+        //SlideSFX.release();
+        Debug.Log("stop");
     }
 }
