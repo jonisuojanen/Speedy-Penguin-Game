@@ -14,6 +14,8 @@ public class Booster : MonoBehaviour
         {
             GameManager.instance.playerController.ActivateBoost(m_BoostTime, m_BoostAmount);
             print("activated boost!");
+
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/SpeedBoost", gameObject);
         }
     }
 }
