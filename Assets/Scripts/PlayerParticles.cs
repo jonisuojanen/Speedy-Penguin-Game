@@ -9,9 +9,6 @@ public class PlayerParticles : MonoBehaviour
 
     private const float s_landingParticlePlayImpulseY = 1000f;
 
-    private bool isPlaying = false;
-
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

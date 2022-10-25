@@ -37,15 +37,11 @@ public class F_AudioManager : MonoBehaviour
     public void StartSlideSFX()
     {
         SlideSFX.start();
-        Debug.Log("start");
     }
 
     public void StopSlideSFX()
     {
-
         SlideSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-        //SlideSFX.release();
-        Debug.Log("stop");
     }
 
     public bool isPlaying()
@@ -53,9 +49,6 @@ public class F_AudioManager : MonoBehaviour
         FMOD.Studio.PLAYBACK_STATE state;
         SlideSFX.getPlaybackState(out state);
 
-        if(state==FMOD.Studio.PLAYBACK_STATE.PLAYING) 
-            return true;
-
-        return false;
+        return state == FMOD.Studio.PLAYBACK_STATE.PLAYING;
     }
 }

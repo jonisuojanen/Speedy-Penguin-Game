@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.15353969, g: 0.47991678, b: 0.6200707, a: 1}
+  m_IndirectSpecularColor: {r: 0.15380725, g: 0.48026162, b: 0.62054634, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9038,7 +9038,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.000000026507626, y: 0.89716524, z: -0.44169518, w: 0.00000005384193}
+  m_LocalRotation: {x: -0.0000000030885399, y: 0.89716524, z: -0.44169515, w: -0.000000006273407}
   m_LocalPosition: {x: 105, y: 395, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -19401,7 +19401,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh84710
+  m_Name: pb_Mesh29318
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -19559,12 +19559,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &832414721 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1123830622411677045, guid: df090e3bcca2bca44ac077c410898dcc,
-    type: 3}
-  m_PrefabInstance: {fileID: 198220616}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -22141,6 +22135,7 @@ Transform:
   - {fileID: 1435430544}
   - {fileID: 1855259482}
   - {fileID: 1913387207}
+  - {fileID: 1291977355}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26585,7 +26580,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7780429, y: 1}
+    m_SensorSize: {x: 1.841484, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -26601,7 +26596,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949354383}
-  m_LocalRotation: {x: -0, y: 7.1054265e-15, z: -5.32907e-15, w: 1}
+  m_LocalRotation: {x: -2.1506693e-23, y: 3.5527133e-15, z: 4.4408916e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -33340,6 +33335,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40ef95431fcb0b04487c8ed0d2a89d09, type: 3}
+--- !u!1 &1291977354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1291977355}
+  m_Layer: 6
+  m_Name: ProgressTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1291977355
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291977354}
+  m_LocalRotation: {x: 0, y: -0.31311378, z: -0, w: 0.9497156}
+  m_LocalPosition: {x: 652.9, y: -56.213745, z: -2927.4}
+  m_LocalScale: {x: 0.47849, y: 0.47849, z: 0.47849}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 861352495}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1300396522
 Mesh:
   m_ObjectHideFlags: 0
@@ -35005,8 +35031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbe4d75ea9f48b41b83a13ffd7fc00b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GoalTransform: {fileID: 861352495}
-  m_TargetTransform: {fileID: 832414721}
+  m_GoalTransform: {fileID: 1291977355}
+  m_TargetTransform: {fileID: 198220618}
   m_ProgressImageTransform: {fileID: 198220617}
   m_Progress: 0
 --- !u!43 &1505606325
@@ -40014,7 +40040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1746083744}
   - component: {fileID: 1746083747}
-  - component: {fileID: 1746083749}
+  - component: {fileID: 1746083748}
   m_Layer: 0
   m_Name: FMOD
   m_TagString: Untagged
@@ -40067,7 +40093,7 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
---- !u!114 &1746083749
+--- !u!114 &1746083748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40076,11 +40102,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1746083743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e1d80be2f2aac46847b306df1cb1c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 20f559dbbd7999a45ab26eb2e2e9132b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadBankAwake: Main
-  LoadBankAwakeStrings: Main.strings
 --- !u!4 &1750145547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6972524543209132418, guid: f119b8010f91326408d2aab7dd308cdd,
