@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
             m_IsJumping = true;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/Jump", gameObject);
         }
 
         if (!m_IsGrounded)
@@ -130,6 +131,7 @@ public class PlayerController : MonoBehaviour
             m_jumpBuffer = 0f;
             m_coyoteTimer = 0f;
             m_IsJumping = true;
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/Jump", gameObject);
         }
 
         if (!m_IsGrounded)
