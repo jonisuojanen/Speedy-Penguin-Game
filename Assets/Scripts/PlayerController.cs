@@ -148,11 +148,11 @@ public class PlayerController : MonoBehaviour
             //SFX TRIGGERS HERE
             if (m_IsSliding)
             {
-                //BACK TO BELLY HERE
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BackToBelly", gameObject);
             }
             else
             {
-                //BELLY TO BACK HERE
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
             }
             
         }
