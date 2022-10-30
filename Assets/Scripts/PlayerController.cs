@@ -142,6 +142,17 @@ public class PlayerController : MonoBehaviour
             m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
             print("speed up: " + m_IsSliding);
             m_Animator.SetBool("BackSlide", !m_IsSliding);
+            
+            //SFX TRIGGERS HERE
+            if (m_IsSliding)
+            {
+                //BACK TO BELLY HERE
+            }
+            else
+            {
+                //BELLY TO BACK HERE
+            }
+            
         }
     }
 
