@@ -15,7 +15,6 @@ public class PlayerParticles : MonoBehaviour
         {
             m_slideParticles.Play();
 
-            print(collision.impulse.y);
             if (collision.impulse.y > s_landingParticlePlayImpulseY)
             {
                 StartCoroutine(LandingParticlesPlay(collision.contacts[0].normal));
