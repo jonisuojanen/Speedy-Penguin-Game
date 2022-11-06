@@ -46,13 +46,14 @@ Shader "Unlit/SHBooster"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed2 scrolledUV = i.uv;
-                fixed offset = _Speed * _Time;
-                scrolledUV += fixed2(0, offset);
-                half4 smp = tex2D(_MainTex, scrolledUV);
+                float2 scrolledUV = i.uv;
+                float offset = _Speed * _Time;
+                scrolledUV += float2(0, offset);
+                float4 smp = tex2D(_MainTex, scrolledUV);
                 fixed4 o;
                 o = smp*_Color;
-                o.a = smp.a;
+                float sined = (sin(((i.uv.y/_MainTex_ST.y) * 3.14159265 * 2.0) - 1.5))/2 + 0.5;
+                o.a = smp.a * sined;
                 return o;
             }
             ENDCG
