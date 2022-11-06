@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelScripts : MonoBehaviour
 {
     public GameObject deadPanel;
+    public GameObject winPanel;
 
     private void Start()
     {
