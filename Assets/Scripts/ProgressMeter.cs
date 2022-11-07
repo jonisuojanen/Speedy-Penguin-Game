@@ -11,19 +11,21 @@ public class ProgressMeter : MonoBehaviour
     
     [HideInInspector] public float m_Progress;
     private float m_TotalDistance;
-
+    private float m_progressStartPosX;
 
     private void Start()
     {
         m_TotalDistance = Vector3.Distance(m_GoalTransform.position, m_TargetTransform.position);
+        m_progressStartPosX = m_ProgressImageTransform.localPosition.x;
+        print(m_progressStartPosX);
     }
 
     private void FixedUpdate()
     {
         float dst = Vector3.Distance(m_GoalTransform.position, m_TargetTransform.position);
 
-        m_Progress = 1-((m_TotalDistance - dst) / m_TotalDistance);
-        m_ProgressImageTransform.localScale = new Vector3(m_Progress, 1, 1);
-
+        var progressPosition = m_ProgressImageTransform.localPosition;
+        progressPosition.x = dst / m_TotalDistance * m_progressStartPosX;
+        m_ProgressImageTransform.localPosition = progressPosition;
     }
 }

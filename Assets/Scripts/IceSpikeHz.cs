@@ -11,6 +11,7 @@ public class IceSpikeHz : MonoBehaviour
 
     [SerializeField] private BoxCollider m_ActivationCollider;
     [SerializeField] private BoxCollider m_HitboxCollider;
+    [SerializeField] private Transform hitScanPos;
 
     private bool m_Active;
     private Rigidbody m_Rb;
@@ -25,11 +26,11 @@ public class IceSpikeHz : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (!m_Active) StartCoroutine(ActivateSpike());
-            else CheckForCollision();
+            else CheckForCollision(hitScanPos.position);
         }
         else if (m_Active && other.CompareTag("Ground"))
         {
-            CheckForCollision();
+            CheckForCollision(hitScanPos.position);
         }
     }
 
@@ -44,9 +45,9 @@ public class IceSpikeHz : MonoBehaviour
         m_Active = true;
     }
 
-    void CheckForCollision()
+    void CheckForCollision(Vector3 collisionPos)
     {
-        Collider[] collision = Physics.OverlapSphere(transform.position, m_DamageRadius);
+        Collider[] collision = Physics.OverlapSphere(collisionPos, m_DamageRadius);
         foreach (Collider col in collision)
         {
             if (col.CompareTag("Player")) 
