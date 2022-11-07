@@ -27,7 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _DeepPower: 4
-    - _PositionScalar: 60
+    - _PositionScalar: 69
     - _SubwaveMultiplier: 0.5
     - _SubwaveScale: 0.2
     - _WaveMultiplier: 0.1
