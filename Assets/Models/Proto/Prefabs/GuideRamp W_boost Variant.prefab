@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 6494843829607238396, guid: 566ca19fd0ad23e418aea8e0c2789f7a,
         type: 3}
       propertyPath: m_Name
-      value: GuideRamp W/boost
+      value: GuideRamp W_boost Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8181606192248666821, guid: 566ca19fd0ad23e418aea8e0c2789f7a,
         type: 3}
@@ -171,6 +171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686439531277893039, guid: 40ef95431fcb0b04487c8ed0d2a89d09,
+        type: 3}
+      propertyPath: m_BoostAmount
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40ef95431fcb0b04487c8ed0d2a89d09, type: 3}
