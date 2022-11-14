@@ -10533,16 +10533,68 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7843722083793672973, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
+    - target: {fileID: 7843722083793672973, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1441578313621120438, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
+    - target: {fileID: 8497603023425072606, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
+    - target: {fileID: 8497603023425072606, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8547749517426385442, guid: 038e198dbd5cbde4abb08321d44c028e,
         type: 3}
       propertyPath: m_Name
       value: GameplayCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8814638031809681053, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
+    - target: {fileID: 8814638031809681053, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1441578313621120438, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
     - target: {fileID: 8814638031809681054, guid: 038e198dbd5cbde4abb08321d44c028e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8814638031809681055, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8814638033442849350, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
+    - target: {fileID: 8814638033442849350, guid: 038e198dbd5cbde4abb08321d44c028e,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 1441578313621120438, guid: 7a4f745d788cc6c4f87ec7b54e9b797b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 038e198dbd5cbde4abb08321d44c028e, type: 3}
 --- !u!1 &581558647860995401 stripped
