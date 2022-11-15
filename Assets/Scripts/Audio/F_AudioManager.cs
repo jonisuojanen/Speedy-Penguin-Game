@@ -14,12 +14,12 @@ public class F_AudioManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
 
         FMODUnity.RuntimeManager.LoadBank("Main");
         FMODUnity.RuntimeManager.LoadBank("Main.strings");
 
-        Level1Music = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Level_1_Music");
+        //Level1Music = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Level_1_Music");
         SlideSFX = FMODUnity.RuntimeManager.CreateInstance("event:/SFX/Gameplay/Slide");
     }
 

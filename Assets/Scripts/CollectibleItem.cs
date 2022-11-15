@@ -29,6 +29,7 @@ public class CollectibleItem : MonoBehaviour
             GameManager.instance.AddScore(m_amount);
             print("collected");
             Destroy(gameObject);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/CollectibleCoin", gameObject);
         }
     }
 }
