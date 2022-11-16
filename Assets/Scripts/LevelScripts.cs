@@ -6,6 +6,7 @@ public class LevelScripts : MonoBehaviour
 {
     public GameObject deadPanel;
     public GameObject winPanel;
+    public GameObject scoreTextGameObject;
 
     private void Start()
     {

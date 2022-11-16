@@ -27,8 +27,7 @@ public class KillZone : MonoBehaviour
     {
         if(m_IsGoal)
         {
-            GameManager.instance.levelScripts.winPanel.SetActive(true);
-            GameManager.instance.SetGameActive(false);
+            GameManager.instance.DemoFinished();
             return;
         }
         GameManager.instance.levelScripts.deadPanel.SetActive(true);
