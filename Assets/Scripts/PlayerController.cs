@@ -41,11 +41,14 @@ public class PlayerController : MonoBehaviour
 
     public GameObject m_scoreText;
 
+    private void Awake()
+    {
+    }
+
     void Start()
     {
         GameManager.instance.playerController = this;
         GameManager.instance.GetVariables();
-
         m_RigidBody = GetComponent<Rigidbody>();
         m_TargetSpeed = m_SlidingSpeed;
     }
@@ -134,27 +137,33 @@ public class PlayerController : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/Jump", gameObject);
         }
 
-        if (!m_IsGrounded)
-            return;
-
         //Slide toggle
-        if (pad.leftTrigger.wasPressedThisFrame)
+        if (pad.leftTrigger.isPressed && m_IsSliding && m_IsGrounded)
         {
-            m_IsSliding = !m_IsSliding;
-            m_TargetSpeed = (m_IsSliding) ? m_SlidingSpeed : m_StandingSpeed;
-            print("speed up: " + m_IsSliding);
-            m_Animator.SetBool("BackSlide", !m_IsSliding);
-            
-            //SFX TRIGGERS HERE
-            if (m_IsSliding)
-            {
-                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BackToBelly", gameObject);
-            }
-            else
-            {
-                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
-            }
-            
+            m_IsSliding = false;
+            m_TargetSpeed = m_StandingSpeed;
+            print("belly to back");
+            m_Animator.SetBool("BackSlide", true);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
+
+            ////SFX TRIGGERS HERE
+            //if (m_IsSliding)
+            //{
+            //    FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BackToBelly", gameObject);
+            //}
+            //else
+            //{
+            //    FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
+            //}
+        }
+
+        if (pad.leftTrigger.wasReleasedThisFrame && !m_IsSliding)
+        {
+            m_IsSliding = true;
+            m_TargetSpeed = m_SlidingSpeed;
+            print("back to belly");
+            m_Animator.SetBool("BackSlide", false);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BackToBelly", gameObject);
         }
     }
 
