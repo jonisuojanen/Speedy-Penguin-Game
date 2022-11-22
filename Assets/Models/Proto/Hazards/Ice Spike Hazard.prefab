@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831613692292520806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 17.2, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,8 +74,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50, y: 24.349367, z: 1}
-  m_Center: {x: 0, y: 7.1746845, z: 0}
+  m_Size: {x: 50, y: 2.4228826, z: 25.559523}
+  m_Center: {x: 0, y: -3.7885585, z: 2.7788837}
 --- !u!1 &7161669736043167595
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +104,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7161669736043167595}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -1, y: -0, z: -0, w: 0.00000037252897}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -113,7 +113,7 @@ Transform:
   - {fileID: 842916808549394555}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -180, y: 0, z: 0}
 --- !u!114 &7161669736043167598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7161669736043167595}
   serializedVersion: 2
-  m_Mass: 15
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -156,7 +156,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7161669736043167595}
-  m_Mesh: {fileID: -7010378030965793764, guid: d6003ac1163f4064f88d77060fdf2e4c, type: 3}
+  m_Mesh: {fileID: -7010378030965793764, guid: 086417f6d1d2da74e9f09fce759154aa, type: 3}
 --- !u!23 &7161669736043167584
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -210,5 +210,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 17.689362, y: 28.280018, z: 11.165334}
-  m_Center: {x: 0.57865906, y: 4.0011406, z: -14.631403}
+  m_Size: {x: 15.905472, y: 8.755246, z: 13.563968}
+  m_Center: {x: -0.1405983, y: 7.690496, z: -1.1993175}
