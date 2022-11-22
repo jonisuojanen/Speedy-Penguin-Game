@@ -16,7 +16,7 @@ public class CollectibleItem : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(m_player);
+        transform.LookAt(Camera.main.transform);
         //m_rotationY = m_rotationY + m_rotateSpeed * Time.deltaTime;
         //if (m_rotationY > 360f) m_rotationY -= 360f;
         //transform.rotation = Quaternion.Euler(transform.rotation.x, m_rotationY, transform.rotation.z);
