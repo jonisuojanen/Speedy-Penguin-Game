@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+
+struct TimePoint
+{
+    public Vector3 playerPosition;
+    public Quaternion playerRotation;
+    public Vector3 playerVelocity;
+}
 
 public class PlayerController : MonoBehaviour
 {
@@ -41,8 +50,20 @@ public class PlayerController : MonoBehaviour
 
     public GameObject m_scoreText;
 
+    [SerializeField]
+    private Image m_FadeImage;
+
+    [SerializeField]
+    private int m_Lives = 3;
+
+    private Queue<TimePoint> m_SavePoints = new Queue<TimePoint>();
+    private int m_QueueLimit = 7;
+    private float m_LastSaveTime = 0;
+    private bool m_ShouldFade = false;
+    private float m_FadeTime = 0;
     private void Awake()
     {
+
     }
 
     void Start()
@@ -87,6 +108,72 @@ public class PlayerController : MonoBehaviour
         }
         if (m_IsGrounded) m_coyoteTimer = m_coyoteAndJumpBufferTime;
 
+        TrackObject();
+
+        FadePanel();
+    }
+
+    void TrackObject()
+    {
+        if (!m_IsGrounded)
+            return;
+
+        if(m_SavePoints.Count == 0)
+        {
+            TimePoint t = new TimePoint();
+            t.playerPosition = transform.position;
+            t.playerRotation = m_GFX.rotation;
+            t.playerVelocity = m_RigidBody.velocity;
+            m_LastSaveTime = Time.time;
+            m_SavePoints.Enqueue(t);
+            if (m_SavePoints.Count > m_QueueLimit)
+            {
+                m_SavePoints.Dequeue();
+            }
+            return;
+        }
+
+        if (Time.time - m_LastSaveTime >= 1.0f)
+        {
+            TimePoint tp = new TimePoint();
+            Debug.Log("Count: " + m_SavePoints.Count);
+
+            tp.playerPosition = transform.position;
+            tp.playerRotation = m_GFX.rotation;
+            tp.playerVelocity = m_RigidBody.velocity;
+            m_SavePoints.Enqueue(tp);
+            m_LastSaveTime = Time.time;
+            if (m_SavePoints.Count > m_QueueLimit)
+            {
+                m_SavePoints.Dequeue();
+            }
+            return;
+        }
+    }
+
+    void FadePanel()
+    {
+        if(m_ShouldFade)
+        {
+            m_FadeTime += Time.deltaTime;
+            Color col = new Color(0,0,0,0);
+            col.a = Mathf.Clamp(Mathf.Sin(m_FadeTime * Mathf.PI)*2,0,1);
+            m_FadeImage.color = col;
+        }
+        else
+        {
+            m_FadeImage.color = new Color(0, 0, 0, 0);
+            m_FadeTime = 0;
+        }
+    }
+
+    void Respawn()
+    {
+        TimePoint tp = m_SavePoints.Dequeue();
+
+        transform.position = tp.playerPosition;
+        m_GFX.rotation = tp.playerRotation;
+        m_RigidBody.velocity = tp.playerVelocity;
     }
 
     private void GatherInput()
@@ -111,6 +198,27 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("BackSlide", !m_IsSliding);
         }
     }
+
+    public void KillPlayer(bool isGoal)
+    {
+        if (isGoal)
+        {
+            GameManager.instance.DemoFinished();
+            return;
+        }
+
+        if(m_Lives > 0)
+        {
+            StartCoroutine(FadeAndRespawnEvent());
+            m_Lives--;
+        }
+        else
+        {
+            GameManager.instance.levelScripts.deadPanel.SetActive(true);
+            GameManager.instance.SetGameActive(false);
+        }
+    }
+
 
     private void GatherInputMobile()
     {
@@ -253,4 +361,15 @@ public class PlayerController : MonoBehaviour
             m_IsGrounded = false;
         }
     }
+
+    private IEnumerator FadeAndRespawnEvent()
+    {
+        m_ShouldFade = true;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Respawn();
+        yield return new WaitForSecondsRealtime(0.8f);
+        m_ShouldFade = false;
+    }
+
 }
+
