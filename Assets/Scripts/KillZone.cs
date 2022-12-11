@@ -20,7 +20,9 @@ public class KillZone : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             m_PlayerControllerInstance.KillPlayer(m_IsGoal);
+
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,6 +30,8 @@ public class KillZone : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             m_PlayerControllerInstance.KillPlayer(m_IsGoal);
+
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/DeathSplash", gameObject);
         }
     }
 
