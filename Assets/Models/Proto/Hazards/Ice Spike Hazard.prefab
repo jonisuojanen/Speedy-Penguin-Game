@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 7161669736043167585}
   - component: {fileID: 7161669736043167584}
   - component: {fileID: 7161669736043167599}
+  - component: {fileID: 4989014028550758841}
   m_Layer: 0
   m_Name: Ice Spike Hazard
   m_TagString: Untagged
@@ -177,7 +178,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d6b684f46c2adab4d897da00b760aa47, type: 2}
+  - {fileID: 2100000, guid: b9f537922ac11c94787c9822261274d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,3 +213,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 15.905472, y: 8.755246, z: 13.563968}
   m_Center: {x: -0.1405983, y: 7.690496, z: -1.1993175}
+--- !u!64 &4989014028550758841
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7161669736043167595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7010378030965793764, guid: 086417f6d1d2da74e9f09fce759154aa, type: 3}
