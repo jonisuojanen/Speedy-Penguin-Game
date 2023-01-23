@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4309505251462558425}
   - component: {fileID: 7035459122665321157}
   - component: {fileID: -3752863370909804098}
+  - component: {fileID: 9145449528122750293}
   m_Layer: 0
   m_Name: Ice Block
-  m_TagString: Untagged
+  m_TagString: Spike
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -94,7 +95,7 @@ MeshCollider:
   m_GameObject: {fileID: 9198406883082816741}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -108,8 +109,22 @@ MeshCollider:
   m_GameObject: {fileID: 9198406883082816741}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7010378030965793764, guid: 086417f6d1d2da74e9f09fce759154aa, type: 3}
+--- !u!136 &9145449528122750293
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9198406883082816741}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.37
+  m_Height: 22.53719
+  m_Direction: 1
+  m_Center: {x: -0.07942784, y: 8.89, z: -0.22566271}

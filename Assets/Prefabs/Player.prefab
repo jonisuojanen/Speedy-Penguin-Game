@@ -76,6 +76,10 @@ MonoBehaviour:
   m_SlidingSpeed: 45
   m_StandingSpeed: 25
   m_coyoteAndJumpBufferTime: 0.25
+  m_sideRotationSpeed: 70
+  m_sidefallOffSpeed: 35
+  m_siderange: 45
+  m_sideZeroThreshold: 0.1
   m_scoreText: {fileID: 581558647860995401}
   m_FadeImage: {fileID: 4188729683572127201}
   m_Lives: 3
@@ -489,6 +493,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SlideParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060944899103674162, guid: ff7db58069bcdeb4bb3f419ec2078b6a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060944899103674162, guid: ff7db58069bcdeb4bb3f419ec2078b6a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6060944899103674162, guid: ff7db58069bcdeb4bb3f419ec2078b6a,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff7db58069bcdeb4bb3f419ec2078b6a, type: 3}

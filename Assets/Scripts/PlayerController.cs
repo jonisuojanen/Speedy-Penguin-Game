@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
 
 
@@ -39,7 +40,10 @@ public class PlayerController : MonoBehaviour
     private float m_coyoteTimer = 0f;
     private float m_jumpBuffer = 0f;
 
-    
+    [SerializeField]
+    private float m_sideRotationSpeed = 70, m_sidefallOffSpeed = 35, m_siderange = 45.0f, m_sideZeroThreshold=0.1f;
+    private float m_siderotation = 0;
+
     private bool m_IsBoosting;
     private float m_BoostTime;
     private float m_BoostSpeed;
@@ -61,6 +65,9 @@ public class PlayerController : MonoBehaviour
     private float m_LastSaveTime = 0;
     private bool m_ShouldFade = false;
     private float m_FadeTime = 0;
+    private Gamepad pad;
+    List<Ray> rays = new List<Ray>();
+
     private void Awake()
     {
 
@@ -72,12 +79,39 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.GetVariables();
         m_RigidBody = GetComponent<Rigidbody>();
         m_TargetSpeed = m_SlidingSpeed;
+
+        pad = Gamepad.current;
+        if (pad == null)
+        {
+            Debug.LogError("No Gamepad detected!");
+        }
     }
 
     void Update()
     {
         Vector3 rotation = transform.position - m_RigidBody.velocity;
         m_GFX.LookAt(rotation, Vector3.up);
+        
+
+        if (Mathf.Abs(m_siderotation) < m_siderange)
+            m_siderotation += input * m_sideRotationSpeed * Time.deltaTime;
+
+        Mathf.Clamp(m_siderotation, -m_siderange, m_siderange);
+
+        //Cap max rotation
+        m_GFX.Rotate(Vector3.forward, m_siderotation);
+
+        //Fall off 
+        if (m_siderotation > 0 + m_sideZeroThreshold)
+        {
+            m_siderotation -= Time.deltaTime * m_sidefallOffSpeed;
+        }
+        else if (m_siderotation < 0 - m_sideZeroThreshold)
+        {
+            m_siderotation += Time.deltaTime * m_sidefallOffSpeed;
+        }
+
+
 
 #if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
@@ -97,7 +131,7 @@ public class PlayerController : MonoBehaviour
             m_RigidBody.velocity = 
             Quaternion.AngleAxis(input * m_RotationSpeed * Time.fixedDeltaTime, Vector3.up) * m_RigidBody.velocity;
         }
-        if (m_IsJumping)
+        if (m_IsJumping && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
         {
             m_RigidBody.AddForce(Vector3.up * Mathf.Lerp(m_JumpForce, m_JumpForce*2,m_RigidBody.velocity.magnitude), ForceMode.Impulse);
             m_IsJumping = false;
@@ -115,11 +149,13 @@ public class PlayerController : MonoBehaviour
 
     void TrackObject()
     {
-        if (!m_IsGrounded)
+        if (!m_IsGrounded || !Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
             return;
 
         if(m_SavePoints.Count == 0)
         {
+            rays.Add(new Ray(transform.position, Vector3.down));
+
             TimePoint t = new TimePoint();
             t.playerPosition = transform.position;
             t.playerRotation = m_GFX.rotation;
@@ -135,6 +171,8 @@ public class PlayerController : MonoBehaviour
 
         if (Time.time - m_LastSaveTime >= 1.0f)
         {
+            rays.Add(new Ray(transform.position, Vector3.down));
+
             TimePoint tp = new TimePoint();
             Debug.Log("Count: " + m_SavePoints.Count);
 
@@ -160,11 +198,6 @@ public class PlayerController : MonoBehaviour
             col.a = Mathf.Clamp(Mathf.Sin(m_FadeTime * Mathf.PI)*2,0,1);
             m_FadeImage.color = col;
         }
-        else
-        {
-            m_FadeImage.color = new Color(0, 0, 0, 0);
-            m_FadeTime = 0;
-        }
     }
 
     void Respawn()
@@ -180,7 +213,7 @@ public class PlayerController : MonoBehaviour
     {
         input = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space)) // && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+        if (Input.GetKeyDown(KeyCode.Space) && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength)) // && Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
         {
             Debug.DrawRay(transform.position, Vector3.down, Color.red, m_MaxGroundRayLength);
             m_IsJumping = true;
@@ -222,13 +255,16 @@ public class PlayerController : MonoBehaviour
 
     private void GatherInputMobile()
     {
+        /*
         Gamepad pad = Gamepad.current;
         if (pad == null)
         {
             Debug.LogError("No Gamepad detected!");
             return;
         }
+        */
 
+        
         input = pad.rightStick.ReadValue().x;
 
         //Jump buffer
@@ -245,14 +281,33 @@ public class PlayerController : MonoBehaviour
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/Jump", gameObject);
         }
 
+        //Boost
+        if (pad.leftTrigger.wasReleasedThisFrame)
+        {
+            if (GameManager.instance.ReadScore() >= 5)
+            {
+                ActivateBoost(2f, 30f);
+                GameManager.instance.AddScore(-5);
+                FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/SpeedBoost", gameObject);
+            }
+        }
+
         //Slide toggle
         if (pad.leftTrigger.isPressed && m_IsSliding && m_IsGrounded)
         {
+
+
+
+            
+            /* ---SLOW DOWN---
             m_IsSliding = false;
             m_TargetSpeed = m_StandingSpeed;
             print("belly to back");
             m_Animator.SetBool("BackSlide", true);
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
+            */
+
+
 
             ////SFX TRIGGERS HERE
             //if (m_IsSliding)
@@ -264,6 +319,8 @@ public class PlayerController : MonoBehaviour
             //    FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
             //}
         }
+
+
 
         if (pad.leftTrigger.wasReleasedThisFrame && !m_IsSliding)
         {
@@ -353,6 +410,11 @@ public class PlayerController : MonoBehaviour
         {
             m_IsGrounded = true;
         }
+        if(collision.gameObject.CompareTag("Spike"))
+        {
+
+            ActivateSlow(1.4f, 20f);
+        }
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -369,6 +431,18 @@ public class PlayerController : MonoBehaviour
         Respawn();
         yield return new WaitForSecondsRealtime(0.8f);
         m_ShouldFade = false;
+        m_FadeImage.color = new Color(0, 0, 0, 0);
+        m_FadeTime = 0;
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        foreach( Ray r in rays)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(r);
+        }
     }
 
 }

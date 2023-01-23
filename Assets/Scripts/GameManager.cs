@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
         UpdateScoreToUI();
     }
 
+    public int ReadScore()
+    {
+        return m_score;
+    }
+
     public void UpdateScoreToUI()
     {
         m_scoreTMP.text = "Score: " + m_score;
