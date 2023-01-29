@@ -2,23 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
 
 
-struct TimePoint
-{
-    public Vector3 playerPosition;
-    public Quaternion playerRotation;
-    public Vector3 playerVelocity;
-}
-
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform m_GFX;
-    [SerializeField]
-    private Animator m_Animator;
+    #region Variables
+
+    [Header("Movement")]
+    [Space]
+
+    #region Movement variables
     [SerializeField]
     private float m_RotationSpeed;
     [SerializeField]
@@ -35,14 +29,11 @@ public class PlayerController : MonoBehaviour
     private bool m_IsJumping = false;
     private bool m_IsGrounded = false;
     private bool m_CanJump = true;
+
     [SerializeField]
     private float m_coyoteAndJumpBufferTime;
     private float m_coyoteTimer = 0f;
     private float m_jumpBuffer = 0f;
-
-    [SerializeField]
-    private float m_sideRotationSpeed = 70, m_sidefallOffSpeed = 35, m_siderange = 45.0f, m_sideZeroThreshold=0.1f;
-    private float m_siderotation = 0;
 
     private bool m_IsBoosting;
     private float m_BoostTime;
@@ -52,21 +43,70 @@ public class PlayerController : MonoBehaviour
     private float m_SlowedTime;
     private float m_SlowedSpeed;
 
-    public GameObject m_scoreText;
+    private Gamepad pad;
+    #endregion
+
+
+    [Space]
+    [Header("Banking")]
+    [Space]
+
+    #region Banking variables
+
 
     [SerializeField]
-    private Image m_FadeImage;
+    private float m_BankingSpeed = 70;
+    [SerializeField]
+    private float m_BankingFalloffSpeed = 35;
+    [SerializeField]
+    private float m_BankingRange = 45.0f;
+    [SerializeField]
+    private float m_BankingZeroThreshold = 0.1f;
+    private float m_siderotation = 0;
+    #endregion
 
+    [Space]
+    [Header("Other")]
+    [Space]
+
+    #region Respawn variables
     [SerializeField]
     private int m_Lives = 3;
+    struct TimePoint
+    {
+        public Vector3 playerPosition;
+        public Quaternion playerRotation;
+        public Vector3 playerVelocity;
+    }
 
     private Queue<TimePoint> m_SavePoints = new Queue<TimePoint>();
     private int m_QueueLimit = 7;
     private float m_LastSaveTime = 0;
     private bool m_ShouldFade = false;
     private float m_FadeTime = 0;
-    private Gamepad pad;
+
     List<Ray> rays = new List<Ray>();
+    #endregion
+
+    #region Visual variables
+    [SerializeField]
+    private TrailRenderer m_TrailRenderer;
+
+    public GameObject m_scoreText;
+
+    [SerializeField]
+    private Image m_FadeImage;
+
+    [SerializeField]
+    private Transform m_GFX;
+
+    [SerializeField]
+    private Animator m_Animator;
+    #endregion
+
+    #endregion
+
+    #region Unity override methods
 
     private void Awake()
     {
@@ -89,29 +129,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Vector3 rotation = transform.position - m_RigidBody.velocity;
-        m_GFX.LookAt(rotation, Vector3.up);
-        
 
-        if (Mathf.Abs(m_siderotation) < m_siderange)
-            m_siderotation += input * m_sideRotationSpeed * Time.deltaTime;
-
-        Mathf.Clamp(m_siderotation, -m_siderange, m_siderange);
-
-        //Cap max rotation
-        m_GFX.Rotate(Vector3.forward, m_siderotation);
-
-        //Fall off 
-        if (m_siderotation > 0 + m_sideZeroThreshold)
-        {
-            m_siderotation -= Time.deltaTime * m_sidefallOffSpeed;
-        }
-        else if (m_siderotation < 0 - m_sideZeroThreshold)
-        {
-            m_siderotation += Time.deltaTime * m_sidefallOffSpeed;
-        }
-
-
+        RotateGraphicsObject();
 
 #if UNITY_STANDALONE || UNITY_EDITOR
         GatherInput();
@@ -119,7 +138,10 @@ public class PlayerController : MonoBehaviour
 #if UNITY_ANDROID || UNITY_IOS
         GatherInputMobile();
 #endif
+
         UpdateTimers();
+
+        Trail();
     }
 
     private void FixedUpdate()
@@ -147,67 +169,29 @@ public class PlayerController : MonoBehaviour
         FadePanel();
     }
 
-    void TrackObject()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (!m_IsGrounded || !Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
-            return;
-
-        if(m_SavePoints.Count == 0)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            rays.Add(new Ray(transform.position, Vector3.down));
-
-            TimePoint t = new TimePoint();
-            t.playerPosition = transform.position;
-            t.playerRotation = m_GFX.rotation;
-            t.playerVelocity = m_RigidBody.velocity;
-            m_LastSaveTime = Time.time;
-            m_SavePoints.Enqueue(t);
-            if (m_SavePoints.Count > m_QueueLimit)
-            {
-                m_SavePoints.Dequeue();
-            }
-            return;
+            m_IsGrounded = true;
         }
-
-        if (Time.time - m_LastSaveTime >= 1.0f)
+        if (collision.gameObject.CompareTag("Spike"))
         {
-            rays.Add(new Ray(transform.position, Vector3.down));
 
-            TimePoint tp = new TimePoint();
-            Debug.Log("Count: " + m_SavePoints.Count);
-
-            tp.playerPosition = transform.position;
-            tp.playerRotation = m_GFX.rotation;
-            tp.playerVelocity = m_RigidBody.velocity;
-            m_SavePoints.Enqueue(tp);
-            m_LastSaveTime = Time.time;
-            if (m_SavePoints.Count > m_QueueLimit)
-            {
-                m_SavePoints.Dequeue();
-            }
-            return;
+            ActivateSlow(1.4f, 20f);
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            m_IsGrounded = false;
         }
     }
 
-    void FadePanel()
-    {
-        if(m_ShouldFade)
-        {
-            m_FadeTime += Time.deltaTime;
-            Color col = new Color(0,0,0,0);
-            col.a = Mathf.Clamp(Mathf.Sin(m_FadeTime * Mathf.PI)*2,0,1);
-            m_FadeImage.color = col;
-        }
-    }
+    #endregion
 
-    void Respawn()
-    {
-        TimePoint tp = m_SavePoints.Dequeue();
-
-        transform.position = tp.playerPosition;
-        m_GFX.rotation = tp.playerRotation;
-        m_RigidBody.velocity = tp.playerVelocity;
-    }
+    #region Player movement methods
 
     private void GatherInput()
     {
@@ -232,27 +216,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void KillPlayer(bool isGoal)
-    {
-        if (isGoal)
-        {
-            GameManager.instance.DemoFinished();
-            return;
-        }
-
-        if(m_Lives > 0)
-        {
-            StartCoroutine(FadeAndRespawnEvent());
-            m_Lives--;
-        }
-        else
-        {
-            GameManager.instance.levelScripts.deadPanel.SetActive(true);
-            GameManager.instance.SetGameActive(false);
-        }
-    }
-
-
     private void GatherInputMobile()
     {
         /*
@@ -264,7 +227,7 @@ public class PlayerController : MonoBehaviour
         }
         */
 
-        
+
         input = pad.rightStick.ReadValue().x;
 
         //Jump buffer
@@ -295,10 +258,6 @@ public class PlayerController : MonoBehaviour
         //Slide toggle
         if (pad.leftTrigger.isPressed && m_IsSliding && m_IsGrounded)
         {
-
-
-
-            
             /* ---SLOW DOWN---
             m_IsSliding = false;
             m_TargetSpeed = m_StandingSpeed;
@@ -306,8 +265,6 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetBool("BackSlide", true);
             FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Gameplay/BellyToBack", gameObject);
             */
-
-
 
             ////SFX TRIGGERS HERE
             //if (m_IsSliding)
@@ -383,13 +340,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private IEnumerator JumpReset()
-    {
-        m_CanJump = false;
-        yield return new WaitForSeconds(m_coyoteAndJumpBufferTime * 2);
-        m_CanJump = true;
-    }
-
     public void ActivateBoost(float time, float speed)
     {
         m_BoostTime = time;
@@ -404,24 +354,81 @@ public class PlayerController : MonoBehaviour
         m_IsSlowed = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private IEnumerator JumpReset()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            m_IsGrounded = true;
-        }
-        if(collision.gameObject.CompareTag("Spike"))
-        {
+        m_CanJump = false;
+        yield return new WaitForSeconds(m_coyoteAndJumpBufferTime * 2);
+        m_CanJump = true;
+    }
 
-            ActivateSlow(1.4f, 20f);
+    #endregion
+
+    #region General player methods
+
+    void TrackObject()
+    {
+        if (!m_IsGrounded || !Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
+            return;
+
+        if (m_SavePoints.Count == 0)
+        {
+            TimePoint t = new TimePoint();
+            t.playerPosition = transform.position;
+            t.playerRotation = m_GFX.rotation;
+            t.playerVelocity = m_RigidBody.velocity;
+            m_LastSaveTime = Time.time;
+            m_SavePoints.Enqueue(t);
+            if (m_SavePoints.Count > m_QueueLimit)
+            {
+                m_SavePoints.Dequeue();
+            }
+            return;
+        }
+
+        if (Time.time - m_LastSaveTime >= 1.0f)
+        {
+            TimePoint tp = new TimePoint();
+
+            tp.playerPosition = transform.position;
+            tp.playerRotation = m_GFX.rotation;
+            tp.playerVelocity = m_RigidBody.velocity;
+            m_SavePoints.Enqueue(tp);
+            m_LastSaveTime = Time.time;
+            if (m_SavePoints.Count > m_QueueLimit)
+            {
+                m_SavePoints.Dequeue();
+            }
+            return;
         }
     }
-    private void OnCollisionExit(Collision collision)
+
+    public void KillPlayer(bool isGoal)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (isGoal)
         {
-            m_IsGrounded = false;
+            GameManager.instance.DemoFinished();
+            return;
         }
+
+        if (m_Lives > 0)
+        {
+            StartCoroutine(FadeAndRespawnEvent());
+            m_Lives--;
+        }
+        else
+        {
+            GameManager.instance.levelScripts.deadPanel.SetActive(true);
+            GameManager.instance.SetGameActive(false);
+        }
+    }
+
+    void Respawn()
+    {
+        TimePoint tp = m_SavePoints.Dequeue();
+
+        transform.position = tp.playerPosition;
+        m_GFX.rotation = tp.playerRotation;
+        m_RigidBody.velocity = tp.playerVelocity;
     }
 
     private IEnumerator FadeAndRespawnEvent()
@@ -435,15 +442,50 @@ public class PlayerController : MonoBehaviour
         m_FadeTime = 0;
     }
 
+    #endregion
 
-    private void OnDrawGizmos()
+    #region Visual methods
+
+    void Trail()
     {
-        foreach( Ray r in rays)
+        m_TrailRenderer.emitting = m_IsGrounded;
+    }
+
+    void RotateGraphicsObject()
+    {
+        Vector3 rotation = transform.position - m_RigidBody.velocity;
+        m_GFX.LookAt(rotation, Vector3.up);
+
+
+        if (Mathf.Abs(m_siderotation) < m_BankingRange)
+            m_siderotation += input * m_BankingSpeed * Time.deltaTime;
+
+        Mathf.Clamp(m_siderotation, -m_BankingRange, m_BankingRange);
+
+        //Cap max rotation
+        m_GFX.Rotate(Vector3.forward, m_siderotation);
+
+        //Fall off 
+        if (m_siderotation > 0 + m_BankingZeroThreshold)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(r);
+            m_siderotation -= Time.deltaTime * m_BankingFalloffSpeed;
+        }
+        else if (m_siderotation < 0 - m_BankingZeroThreshold)
+        {
+            m_siderotation += Time.deltaTime * m_BankingFalloffSpeed;
         }
     }
 
-}
+    void FadePanel()
+    {
+        if(m_ShouldFade)
+        {
+            m_FadeTime += Time.deltaTime;
+            Color col = new Color(0,0,0,0);
+            col.a = Mathf.Clamp(Mathf.Sin(m_FadeTime * Mathf.PI)*2,0,1);
+            m_FadeImage.color = col;
+        }
+    }
 
+    #endregion
+}

@@ -17,7 +17,6 @@ public class ProgressMeter : MonoBehaviour
     {
         m_TotalDistance = Vector3.Distance(m_GoalTransform.position, m_TargetTransform.position);
         m_progressStartPosX = m_ProgressImageTransform.localPosition.x;
-        print(m_progressStartPosX);
     }
 
     private void FixedUpdate()
