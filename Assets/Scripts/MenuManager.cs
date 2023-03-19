@@ -56,10 +56,6 @@ public class MenuManager : MonoBehaviour
         m_panels[index].SetActive(true);
     }
 
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
     #endregion
 
     #region HELPER_METHODS
