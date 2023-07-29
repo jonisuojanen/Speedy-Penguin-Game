@@ -72,16 +72,16 @@ public class PlayerController : MonoBehaviour
     #region Respawn variables
     [SerializeField]
     private int m_Lives = 3;
-    struct TimePoint
+    private struct TimePoint
     {
         public Vector3 playerPosition;
         public Quaternion playerRotation;
         public Vector3 playerVelocity;
     }
 
-    private Queue<TimePoint> m_SavePoints = new Queue<TimePoint>();
-    private int m_QueueLimit = 7;
-    private float m_LastSaveTime = 0;
+    private TimePoint m_SavePoint;
+    //private int m_QueueLimit = 7;
+    //private float m_LastSaveTime = 0;
     private bool m_ShouldFade = false;
     private float m_FadeTime = 0;
 
@@ -110,7 +110,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-
+        m_SavePoint.playerPosition = transform.position;
+        m_SavePoint.playerRotation = transform.rotation;
+        m_SavePoint.playerVelocity = Vector3.zero;
     }
 
     void Start()
@@ -164,8 +166,6 @@ public class PlayerController : MonoBehaviour
         }
         if (m_IsGrounded) m_coyoteTimer = m_coyoteAndJumpBufferTime;
 
-        TrackObject();
-
         FadePanel();
     }
 
@@ -177,7 +177,6 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Spike"))
         {
-
             ActivateSlow(1.4f, 20f);
         }
     }
@@ -186,6 +185,15 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             m_IsGrounded = false;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Checkpoint"))
+        {
+            m_SavePoint.playerPosition = other.gameObject.transform.position;
+            m_SavePoint.playerRotation = other.gameObject.transform.rotation;
+            m_SavePoint.playerVelocity = m_RigidBody.velocity.magnitude * other.gameObject.transform.forward;
         }
     }
 
@@ -365,43 +373,6 @@ public class PlayerController : MonoBehaviour
 
     #region General player methods
 
-    void TrackObject()
-    {
-        if (!m_IsGrounded || !Physics.Raycast(transform.position, Vector3.down, m_MaxGroundRayLength))
-            return;
-
-        if (m_SavePoints.Count == 0)
-        {
-            TimePoint t = new TimePoint();
-            t.playerPosition = transform.position;
-            t.playerRotation = m_GFX.rotation;
-            t.playerVelocity = m_RigidBody.velocity;
-            m_LastSaveTime = Time.time;
-            m_SavePoints.Enqueue(t);
-            if (m_SavePoints.Count > m_QueueLimit)
-            {
-                m_SavePoints.Dequeue();
-            }
-            return;
-        }
-
-        if (Time.time - m_LastSaveTime >= 1.0f)
-        {
-            TimePoint tp = new TimePoint();
-
-            tp.playerPosition = transform.position;
-            tp.playerRotation = m_GFX.rotation;
-            tp.playerVelocity = m_RigidBody.velocity;
-            m_SavePoints.Enqueue(tp);
-            m_LastSaveTime = Time.time;
-            if (m_SavePoints.Count > m_QueueLimit)
-            {
-                m_SavePoints.Dequeue();
-            }
-            return;
-        }
-    }
-
     public void KillPlayer(bool isGoal)
     {
         if (isGoal)
@@ -424,11 +395,9 @@ public class PlayerController : MonoBehaviour
 
     void Respawn()
     {
-        TimePoint tp = m_SavePoints.Dequeue();
-
-        transform.position = tp.playerPosition;
-        m_GFX.rotation = tp.playerRotation;
-        m_RigidBody.velocity = tp.playerVelocity;
+        transform.position = m_SavePoint.playerPosition;
+        m_GFX.rotation = m_SavePoint.playerRotation;
+        m_RigidBody.velocity = m_SavePoint.playerVelocity;
     }
 
     private IEnumerator FadeAndRespawnEvent()
